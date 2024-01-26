@@ -27,7 +27,7 @@ const CandidateList = ({ onEditCandidate }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/candidates/${id}`);
+      await axios.delete(`https://recruiter-tool-backend.vercel.app/${id}`);
       getCandidates(); // Refresh the list after deletion
     } catch (error) {
       console.error('Error deleting candidate:', error.message);
