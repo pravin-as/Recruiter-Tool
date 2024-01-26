@@ -92,8 +92,8 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
     try {
       const method = formData._id ? "put" : "post";
       const url = formData._id
-        ? `http://localhost:8000/candidates/${formData._id}`
-        : "http://localhost:8000/candidates";
+        ? `https://recruiter-tool-backend.vercel.app/candidates/${formData._id}`
+        : "https://recruiter-tool-backend.vercel.app/candidates";
 
       if (!formData._id) {
         delete formData._id;
