@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
   const [formData, setFormData] = useState({
-    _id: '',
-    name: '',
+    _id: "",
+    name: "",
     contact: {
-      email: '',
-      phone: '',
+      email: "",
+      phone: "",
     },
-    skills: '',
-    status: '',
-    expectedSalary: '',
-    nodeExperience: '',
-    reactExperience: '',
+    skills: "",
+    status: "",
+    expectedSalary: "",
+    nodeExperience: "",
+    reactExperience: "",
     nodeJsScore: 0,
     reactJsScore: 0,
-    totalScore: 0
+    totalScore: 0,
   });
 
   useEffect(() => {
     if (candidateToEdit) {
-      console.log('not here');
+      console.log("not here");
       setFormData({
         ...candidateToEdit,
-        contact: { ...candidateToEdit.contact }, // Ensure a new reference for the contact object
+        contact: { ...candidateToEdit.contact },
         nodeJsScore: calculateScore(candidateToEdit.nodeExperience),
         reactJsScore: calculateScore(candidateToEdit.reactExperience),
         totalScore: calculateTotalScore(
@@ -33,19 +33,18 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
         ),
       });
     } else {
-      // Reset form data when no candidate to edit
       setFormData({
-        _id: '',
-        name: '',
+        _id: "",
+        name: "",
         contact: {
-          email: '',
-          phone: '',
+          email: "",
+          phone: "",
         },
-        skills: '',
-        status: '',
-        expectedSalary: '',
-        nodeExperience: '',
-        reactExperience: '',
+        skills: "",
+        status: "",
+        expectedSalary: "",
+        nodeExperience: "",
+        reactExperience: "",
         nodeJsScore: 0,
         reactJsScore: 0,
         totalScore: 0,
@@ -59,14 +58,13 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
     let updatedNodeJsScore = formData.nodeJsScore;
     let updatedReactJsScore = formData.reactJsScore;
 
-    if (name === 'nodeExperience') {
+    if (name === "nodeExperience") {
       updatedNodeJsScore = calculateScore(value);
-    } else if (name === 'reactExperience') {
+    } else if (name === "reactExperience") {
       updatedReactJsScore = calculateScore(value);
     }
-  
-    // Handle nested fields (contact.email and contact.phone)
-    if (name === 'email' || name === 'phone') {
+
+    if (name === "email" || name === "phone") {
       setFormData((prevData) => ({
         ...prevData,
         contact: {
@@ -79,18 +77,22 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
         ...prevData,
         [name]: value,
         nodeJsScore: updatedNodeJsScore,
-      reactJsScore: updatedReactJsScore,
-      totalScore: calculateTotalScore(updatedNodeJsScore, updatedReactJsScore),
+        reactJsScore: updatedReactJsScore,
+        totalScore: calculateTotalScore(
+          updatedNodeJsScore,
+          updatedReactJsScore
+        ),
       }));
     }
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const method = formData._id ? 'put' : 'post';
-      const url = formData._id ? `http://localhost:8000/candidates/${formData._id}` : 'http://localhost:8000/candidates';
+      const method = formData._id ? "put" : "post";
+      const url = formData._id
+        ? `http://localhost:8000/candidates/${formData._id}`
+        : "http://localhost:8000/candidates";
 
       if (!formData._id) {
         delete formData._id;
@@ -98,23 +100,22 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
 
       const response = await axios[method](url, formData);
       setFormData({
-        _id: '',
-        name: '',
+        _id: "",
+        name: "",
         contact: {
-          email: '',
-          phone: '',
+          email: "",
+          phone: "",
         },
-        skills: '',
-        status: '',
-        expectedSalary: '',
-        nodeExperience: '',
-        reactExperience: '',
+        skills: "",
+        status: "",
+        expectedSalary: "",
+        nodeExperience: "",
+        reactExperience: "",
       });
 
-      // Trigger the parent component's callback to refresh the candidate list
       onFormSubmit(response.data);
     } catch (error) {
-      console.error('Error submitting form:', error.message);
+      console.error("Error submitting form:", error.message);
     }
   };
 
@@ -136,33 +137,83 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
 
   return (
     <div>
-      <h2>{formData._id ? 'Edit Candidate' : 'Add Candidate'}</h2>
+      <h2>{formData._id ? "Edit Candidate" : "Add Candidate"}</h2>
       <form onSubmit={handleSubmit}>
-      <label>Name:</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
         <label>Email:</label>
-        <input type="email" name="email" value={formData.contact.email} onChange={handleChange} required />
+        <input
+          type="email"
+          name="email"
+          value={formData.contact.email}
+          onChange={handleChange}
+          required
+        />
 
         <label>Phone:</label>
-        <input type="tel" name="phone" value={formData.contact.phone} onChange={handleChange} required />
+        <input
+          type="tel"
+          name="phone"
+          value={formData.contact.phone}
+          onChange={handleChange}
+          required
+        />
 
         <label>Skills:</label>
-        <input type="text" name="skills" value={formData.skills} onChange={handleChange} required />
+        <input
+          type="text"
+          name="skills"
+          value={formData.skills}
+          onChange={handleChange}
+          required
+        />
 
         <label>Status:</label>
-        <input type="text" name="status" value={formData.status} onChange={handleChange} required />
+        <input
+          type="text"
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+          required
+        />
 
         <label>Expected Salary:</label>
-        <input type="number" name="expectedSalary" value={formData.expectedSalary} onChange={handleChange} required />
+        <input
+          type="number"
+          name="expectedSalary"
+          value={formData.expectedSalary}
+          onChange={handleChange}
+          required
+        />
 
         <label>Node.js Experience:</label>
-        <input type="text" name="nodeExperience" value={formData.nodeExperience} onChange={handleChange} required />
+        <input
+          type="text"
+          name="nodeExperience"
+          value={formData.nodeExperience}
+          onChange={handleChange}
+          required
+        />
 
         <label>ReactJS Experience:</label>
-        <input type="text" name="reactExperience" value={formData.reactExperience} onChange={handleChange} required />
+        <input
+          type="text"
+          name="reactExperience"
+          value={formData.reactExperience}
+          onChange={handleChange}
+          required
+        />
 
-        <button type="submit">{formData._id ? 'Update Candidate' : 'Add Candidate'}</button>
+        <button type="submit">
+          {formData._id ? "Update Candidate" : "Add Candidate"}
+        </button>
       </form>
     </div>
   );

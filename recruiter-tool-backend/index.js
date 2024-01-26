@@ -1,4 +1,3 @@
-// index.js
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -24,7 +23,6 @@ app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-// Use the candidate routes
 app.use("/candidates", candidateRoutes);
 
 app.listen(PORT, () =>

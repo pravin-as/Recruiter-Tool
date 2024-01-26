@@ -1,11 +1,7 @@
-// src/components/CandidateItem.js
-import React from 'react';
+import React from "react";
 
 const CandidateItem = ({ candidate }) => {
-  
   if (!candidate || !candidate.contact) {
-    console.log(candidate);
-    // If candidate or candidate.contact is undefined, return a placeholder or handle it appropriately
     return <li>Error: Candidate data is missing</li>;
   }
 
@@ -17,7 +13,6 @@ const CandidateItem = ({ candidate }) => {
       <p>Skills: {candidate.skills}</p>
       <p>Status: {candidate.status}</p>
       <p>Expected Salary: {candidate.expectedSalary}</p>
-      {/* Add more details based on your data structure */}
     </li>
   );
 };
