@@ -21,7 +21,13 @@ Connection(username, password);
 
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(
+  {
+    origin: ["https://recruiter-tool-backend.vercel.app/"]
+    methods: ["POST", "GET"],
+    credentials: true
+  }
+));
 
 app.use("/candidates", candidateRoutes);
 
