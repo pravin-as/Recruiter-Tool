@@ -1,12 +1,12 @@
 // index.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 
-const Connection = require('./database/db');
-const candidateRoutes = require('./routes/candidates'); // Import the new routes
+const Connection = require("./database/db");
+const candidateRoutes = require("./routes/candidates"); // Import the new routes
 
 dotenv.config();
 const app = express();
@@ -22,15 +22,11 @@ Connection(username, password);
 
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors(
-  {
-    origin: ["https://recruiter-tool-backend.vercel.app"]
-    methods: ["POST", "GET"],
-    credentials: true
-  }
-));
+app.use(cors());
 
 // Use the candidate routes
-app.use('/candidates', candidateRoutes);
+app.use("/candidates", candidateRoutes);
 
-app.listen(PORT, () => console.log(`Server is running successfully on PORT ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Server is running successfully on PORT ${PORT}`)
+);
