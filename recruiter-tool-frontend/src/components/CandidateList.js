@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-import "../styles.css";
+// src/components/CandidateList.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const CandidateList = ({ onEditCandidate }) => {
   const [candidates, setCandidates] = useState([]);
@@ -10,10 +9,10 @@ const CandidateList = ({ onEditCandidate }) => {
 
   const getCandidates = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/candidates");
+      const response = await axios.get('http://localhost:8000/candidates');
       setCandidates(response.data);
     } catch (error) {
-      console.error("Error fetching candidates:", error.message);
+      console.error('Error fetching candidates:', error.message);
     }
   };
 
@@ -22,7 +21,7 @@ const CandidateList = ({ onEditCandidate }) => {
   }, []); // Empty dependency array ensures useEffect runs only once on mount
 
   const handleEdit = (candidate) => {
-    console.log("Editing candidate:", candidate);
+    console.log('Editing candidate:', candidate);
     onEditCandidate(candidate); // Pass the candidate to the parent component
   };
 
@@ -31,7 +30,7 @@ const CandidateList = ({ onEditCandidate }) => {
       await axios.delete(`http://localhost:8000/candidates/${id}`);
       getCandidates(); // Refresh the list after deletion
     } catch (error) {
-      console.error("Error deleting candidate:", error.message);
+      console.error('Error deleting candidate:', error.message);
     }
   };
 

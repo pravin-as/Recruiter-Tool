@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const candidateSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -11,9 +11,9 @@ const candidateSchema = new mongoose.Schema({
   expectedSalary: { type: Number },
   nodeExperience: { type: String },
   reactExperience: { type: String },
-  totalScore: { type: Number },
+  totalScore: {type: Number}
 });
 
-const Candidate = mongoose.model("Candidate", candidateSchema);
+const Candidate = mongoose.model('Candidate', candidateSchema);
 
 module.exports = Candidate;
