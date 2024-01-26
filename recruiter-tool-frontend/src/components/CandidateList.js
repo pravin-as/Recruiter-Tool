@@ -10,7 +10,7 @@ const CandidateList = ({ onEditCandidate }) => {
 
   const getCandidates = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/candidates");
+      const response = await axios.get("https://recruiter-tool-backend.vercel.app/candidates");
       setCandidates(response.data);
     } catch (error) {
       console.error("Error fetching candidates:", error.message);
@@ -28,7 +28,7 @@ const CandidateList = ({ onEditCandidate }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/candidates/${id}`);
+      await axios.delete(`https://recruiter-tool-backend.vercel.app/${id}`);
       getCandidates(); // Refresh the list after deletion
     } catch (error) {
       console.error("Error deleting candidate:", error.message);
