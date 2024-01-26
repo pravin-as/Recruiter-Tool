@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import CandidateList from "./components/CandidateList";
+import CandidateForm from "./components/CandidateForm";
 
-function App() {
+const App = () => {
+  const [shouldRefreshList, setShouldRefreshList] = useState(false);
+  const [candidateToEdit, setCandidateToEdit] = useState(null);
+
+  const handleFormSubmit = () => {
+    setShouldRefreshList(!shouldRefreshList);
+    setCandidateToEdit(null);
+  };
+
+  const handleEditCandidate = (candidate) => {
+    console.log("Editing candidate:", candidate);
+    setCandidateToEdit(candidate);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <CandidateForm
+        onFormSubmit={handleFormSubmit}
+        candidateToEdit={candidateToEdit}
+      />
+      <CandidateList
+        onEditCandidate={handleEditCandidate}
+        key={shouldRefreshList}
+      />
     </div>
   );
-}
+};
 
 export default App;
