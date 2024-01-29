@@ -5,49 +5,43 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
   const [formData, setFormData] = useState({
     _id: "",
     name: "",
-    contact: {
-      email: "",
-      phone: "",
-    },
+    email: "",
+    phone: "",
     skills: "",
     status: "",
-    expectedSalary: "",
-    nodeExperience: "",
-    reactExperience: "",
+    expected_salary: 0,
+    node_experience: 0,
+    react_experience: 0,
     nodeJsScore: 0,
     reactJsScore: 0,
-    totalScore: 0,
+    total_score: 0,
   });
 
   useEffect(() => {
     if (candidateToEdit) {
-      console.log("not here");
       setFormData({
         ...candidateToEdit,
-        contact: { ...candidateToEdit.contact },
-        nodeJsScore: calculateScore(candidateToEdit.nodeExperience),
-        reactJsScore: calculateScore(candidateToEdit.reactExperience),
+        nodeJsScore: calculateScore(candidateToEdit.node_experience),
+        reactJsScore: calculateScore(candidateToEdit.react_experience),
         totalScore: calculateTotalScore(
-          calculateScore(candidateToEdit.nodeExperience),
-          calculateScore(candidateToEdit.reactExperience)
+          calculateScore(candidateToEdit.node_experience),
+          calculateScore(candidateToEdit.react_experience)
         ),
       });
     } else {
       setFormData({
         _id: "",
         name: "",
-        contact: {
-          email: "",
-          phone: "",
-        },
+        email: "",
+        phone: "",
         skills: "",
         status: "",
-        expectedSalary: "",
-        nodeExperience: "",
-        reactExperience: "",
+        expected_salary: "",
+        node_experience: "",
+        react_experience: "",
         nodeJsScore: 0,
         reactJsScore: 0,
-        totalScore: 0,
+        total_score: 0,
       });
     }
   }, [candidateToEdit]);
@@ -58,19 +52,16 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
     let updatedNodeJsScore = formData.nodeJsScore;
     let updatedReactJsScore = formData.reactJsScore;
 
-    if (name === "nodeExperience") {
+    if (name === "node_experience") {
       updatedNodeJsScore = calculateScore(value);
-    } else if (name === "reactExperience") {
+    } else if (name === "react_experience") {
       updatedReactJsScore = calculateScore(value);
     }
 
-    if (name === "email" || name === "phone") {
+    if (name === "email" || name === "phone" || name === "expected_salary") {
       setFormData((prevData) => ({
         ...prevData,
-        contact: {
-          ...prevData.contact,
-          [name]: value,
-        },
+        [name]: value,
       }));
     } else {
       setFormData((prevData) => ({
@@ -90,27 +81,21 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
     e.preventDefault();
     try {
       const method = formData._id ? "put" : "post";
-      const url = formData._id
-        ? `http://localhost:8000/candidates/${formData._id}`
+      const url = formData.email
+        ? `http://localhost:8000/candidates/update/${formData.email}`
         : "http://localhost:8000/candidates";
 
-      if (!formData._id) {
-        delete formData._id;
-      }
-
-      const response = await axios[method](url, formData);
+      const response = await axios["post"](url, formData);
       setFormData({
         _id: "",
         name: "",
-        contact: {
-          email: "",
-          phone: "",
-        },
+        email: "",
+        phone: "",
         skills: "",
         status: "",
-        expectedSalary: "",
-        nodeExperience: "",
-        reactExperience: "",
+        expected_salary: "",
+        node_experience: "",
+        react_experience: "",
       });
 
       onFormSubmit(response.data);
@@ -121,7 +106,6 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
 
   const calculateScore = (experience) => {
     const years = parseFloat(experience);
-    console.log("years", years);
     if (years < 1) {
       return 1;
     } else if (years >= 1 && years <= 2) {
@@ -137,7 +121,7 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
 
   return (
     <div>
-      <h2>{formData._id ? "Edit Candidate" : "Add Candidate"}</h2>
+      <h2>{formData._id ? "Add Candidate" : "Add Candidate"}</h2>
       <form onSubmit={handleSubmit}>
         <label>Name:</label>
         <input
@@ -152,7 +136,7 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
         <input
           type="email"
           name="email"
-          value={formData.contact.email}
+          value={formData.email}
           onChange={handleChange}
           required
         />
@@ -161,7 +145,7 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
         <input
           type="tel"
           name="phone"
-          value={formData.contact.phone}
+          value={formData.phone}
           onChange={handleChange}
           required
         />
@@ -186,9 +170,9 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
 
         <label>Expected Salary:</label>
         <input
-          type="number"
-          name="expectedSalary"
-          value={formData.expectedSalary}
+          type="text"
+          name="expected_salary"
+          value={formData.expected_salary}
           onChange={handleChange}
           required
         />
@@ -196,8 +180,8 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
         <label>Node.js Experience:</label>
         <input
           type="text"
-          name="nodeExperience"
-          value={formData.nodeExperience}
+          name="node_experience"
+          value={formData.node_experience}
           onChange={handleChange}
           required
         />
@@ -205,14 +189,14 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
         <label>ReactJS Experience:</label>
         <input
           type="text"
-          name="reactExperience"
-          value={formData.reactExperience}
+          name="react_experience"
+          value={formData.react_experience}
           onChange={handleChange}
           required
         />
 
         <button type="submit">
-          {formData._id ? "Update Candidate" : "Add Candidate"}
+          {formData.email ? "Add Candidate" : "Add Candidate"}
         </button>
       </form>
     </div>

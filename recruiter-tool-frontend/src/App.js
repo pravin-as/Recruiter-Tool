@@ -12,7 +12,6 @@ const App = () => {
   };
 
   const handleEditCandidate = (candidate) => {
-    console.log("Editing candidate:", candidate);
     setCandidateToEdit(candidate);
   };
 
