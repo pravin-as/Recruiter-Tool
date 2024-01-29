@@ -82,8 +82,8 @@ const CandidateForm = ({ onFormSubmit, candidateToEdit }) => {
     try {
       const method = formData._id ? "put" : "post";
       const url = formData.email
-        ? `http://localhost:8000/candidates/update/${formData.email}`
-        : "http://localhost:8000/candidates";
+        ? `https://recruiter-tool-backend.vercel.app/candidates/update/${formData.email}`
+        : "https://recruiter-tool-backend.vercel.app/candidates";
 
       const response = await axios["post"](url, formData);
       setFormData({
